@@ -25,7 +25,13 @@ namespace Alexa.NET.Timers.Tests
         [Fact]
         public void CreateRequestLaunchTask()
         {
+            Assert.True(false);
+        }
 
+        [Fact]
+        public void CreateRequestNotifyOnly()
+        {
+            Assert.True(false);
         }
     }
 }
