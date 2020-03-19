@@ -22,6 +22,9 @@
     <None Update="Examples\CreateTimerAnnounce.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Examples\CreateTimerNotifyOnly.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

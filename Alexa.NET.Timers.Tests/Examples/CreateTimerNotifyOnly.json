@@ -1,0 +1,17 @@
+{
+  "duration": "PT10M",
+  "timerLabel": "exercise",
+  "creationBehavior": {
+    "displayExperience": {
+      "visibility": "HIDDEN"
+    }
+  },
+  "triggeringBehavior": {
+    "operation": {
+      "type": "NOTIFY_ONLY"
+    },
+    "notificationConfig": {
+      "playAudible": true
+    }
+  }
+}
