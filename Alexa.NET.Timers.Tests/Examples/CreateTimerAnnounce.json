@@ -15,9 +15,9 @@
           "text": "That's enough stretching, start to run"
         }
       ]
+    },
+    "notificationConfig": {
+      "playAudible": true
     }
-  },
-  "notificationConfig": {
-    "playAudible": true
   }
 }

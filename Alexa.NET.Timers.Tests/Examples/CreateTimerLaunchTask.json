@@ -13,8 +13,9 @@
         "name": "<customTask.NAME>",
         "version": "<customTask.VERSION>",
         "input": {
-          "type": "PrintImageRequest",
-          "version": "1",
+          "@type": "PrintImageRequest",
+          "@version": "1",
+          "description": "test", 
           "title": "Beautiful scenic image",
           "url": "http://www.example.com/beautiful-scenic-image.jpg",
           "imageType": "JPEG"
@@ -25,10 +26,10 @@
           "locale": "en-US",
           "text": "Your print timer is up! Would you like to pass focus back skill {continueWithSkillName}"
         }
-      ],
-      "notificationConfig": {
-        "playAudible": true
-      }
+      ]
+    },
+    "notificationConfig": {
+      "playAudible": true
     }
   }
 }

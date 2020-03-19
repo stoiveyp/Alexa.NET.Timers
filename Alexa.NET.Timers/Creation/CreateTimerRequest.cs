@@ -11,8 +11,7 @@ namespace Alexa.NET.Timers
         {
             Duration = duration;
             CreationBehavior = new CreationBehavior(displayVisibility);
-            TriggeringBehavior = new TriggerBehavior(operation);
-            NotificationConfig = new NotificationConfig(playAudible);
+            TriggeringBehavior = new TriggerBehavior(operation,playAudible);
             Label = label;
         }
 
@@ -27,8 +26,5 @@ namespace Alexa.NET.Timers
 
         [JsonProperty("triggeringBehavior")]
         public TriggerBehavior TriggeringBehavior { get; set; }
-
-        [JsonProperty("notificationConfig")]
-        public NotificationConfig NotificationConfig { get; set; }
     }
 }
