@@ -1,7 +1,6 @@
 ﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 
-namespace Alexa.NET.Timers
+namespace Alexa.NET.Timers.Creation
 {
     public class AnnounceOperation : Operation
     {

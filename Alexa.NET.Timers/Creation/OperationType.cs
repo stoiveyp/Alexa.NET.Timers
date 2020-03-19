@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace Alexa.NET.Timers
+namespace Alexa.NET.Timers.Creation
 {
     public enum OperationType
     {

@@ -3,7 +3,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using Alexa.NET.Timers;
+using Alexa.NET.Timers.Creation;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 

@@ -1,7 +1,6 @@
 ﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
-namespace Alexa.NET.Timers
+namespace Alexa.NET.Timers.Creation
 {
     public class CreationBehavior
     {
