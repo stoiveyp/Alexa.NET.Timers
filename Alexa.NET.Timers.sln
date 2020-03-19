@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29905.134
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Alexa.NET.Timers", "Alexa.NET.Timers\Alexa.NET.Timers.csproj", "{B8093B70-C3ED-45E8-A1A7-FB47A748B85E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alexa.NET.Timers.Tests", "Alexa.NET.Timers.Tests\Alexa.NET.Timers.Tests.csproj", "{18AC6CA7-98DC-404D-B637-094F015FF103}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B8093B70-C3ED-45E8-A1A7-FB47A748B85E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8093B70-C3ED-45E8-A1A7-FB47A748B85E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8093B70-C3ED-45E8-A1A7-FB47A748B85E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8093B70-C3ED-45E8-A1A7-FB47A748B85E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{18AC6CA7-98DC-404D-B637-094F015FF103}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18AC6CA7-98DC-404D-B637-094F015FF103}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18AC6CA7-98DC-404D-B637-094F015FF103}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18AC6CA7-98DC-404D-B637-094F015FF103}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E7EB1972-8A35-4BFB-BD33-FBC0DDD8EF0E}
+	EndGlobalSection
+EndGlobal

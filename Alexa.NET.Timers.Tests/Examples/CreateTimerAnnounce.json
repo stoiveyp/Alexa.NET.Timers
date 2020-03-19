@@ -1,0 +1,24 @@
+{
+  "duration": "PT10M",
+  "timerLabel": "exercise",
+  "creationBehavior": {
+    "displayExperience": {
+      "visibility": "VISIBLE"
+    }
+  },
+  "triggeringBehavior": {
+    "operation": {
+      "type": "ANNOUNCE",
+      "textToAnnounce": [
+        {
+          "locale": "en-US",
+          "text": "That's enough stretching, start to run"
+        }
+      ]
+    }
+  },
+    "notificationConfig": {
+      "playAudible": true
+    }
+  }
+}
