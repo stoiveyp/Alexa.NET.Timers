@@ -5,7 +5,14 @@ namespace Alexa.NET.Timers
 {
     public class CreationBehavior
     {
-        [JsonProperty("displayExperience"),JsonConverter(typeof(StringEnumConverter))]
+        public CreationBehavior() { }
+
+        public CreationBehavior(DisplayVisibility displayVisibility)
+        {
+            DisplayExperience = new DisplayExperience(displayVisibility);
+        }
+
+        [JsonProperty("displayExperience")]
         public DisplayExperience DisplayExperience { get; set; }
     }
 }

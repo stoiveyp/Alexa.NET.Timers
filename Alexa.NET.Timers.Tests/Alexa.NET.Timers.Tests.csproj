@@ -15,6 +15,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Alexa.NET.Timers\Alexa.NET.Timers.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="Examples\CreateTimerAnnounce.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

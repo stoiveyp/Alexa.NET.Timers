@@ -17,8 +17,7 @@
       ]
     }
   },
-    "notificationConfig": {
-      "playAudible": true
-    }
+  "notificationConfig": {
+    "playAudible": true
   }
 }

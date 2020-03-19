@@ -5,6 +5,17 @@ namespace Alexa.NET.Timers
 {
     public class CreateTimerRequest
     {
+        public CreateTimerRequest() { }
+
+        public CreateTimerRequest(TimeSpan duration, Operation operation, DisplayVisibility displayVisibility, bool playAudible, string label = null)
+        {
+            Duration = duration;
+            CreationBehavior = new CreationBehavior(displayVisibility);
+            TriggeringBehavior = new TriggerBehavior(operation);
+            NotificationConfig = new NotificationConfig(playAudible);
+            Label = label;
+        }
+
         [JsonProperty("duration"),JsonConverter(typeof(ISO8601Converter))]
         public TimeSpan Duration { get; set; }
 
@@ -14,8 +25,8 @@ namespace Alexa.NET.Timers
         [JsonProperty("creationBehavior")]
         public CreationBehavior CreationBehavior { get; set; }
 
-        [JsonProperty("triggerBehavior")]
-        public TriggerBehavior TriggerBehavior { get; set; }
+        [JsonProperty("triggeringBehavior")]
+        public TriggerBehavior TriggeringBehavior { get; set; }
 
         [JsonProperty("notificationConfig")]
         public NotificationConfig NotificationConfig { get; set; }
