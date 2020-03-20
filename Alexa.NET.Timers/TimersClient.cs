@@ -1,8 +1,11 @@
 ﻿using System;
+using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using Alexa.NET.Request;
+using Alexa.NET.Timers;
 using Alexa.NET.Timers.Creation;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -32,7 +35,7 @@ namespace Alexa.NET
 
         public TimersClient(string endpointBase, string accessToken, HttpClient client)
         {
-            client = client ?? new HttpClient();
+            client ??= new HttpClient();
             if (client.BaseAddress == null)
             {
                 client.BaseAddress = new Uri(endpointBase, UriKind.Absolute);
@@ -51,11 +54,26 @@ namespace Alexa.NET
             Client = client;
         }
 
-        public Task<HttpResponseMessage> Create(CreateTimerRequest request)
+        public async Task<TimerResponse> Create(CreateTimerRequest request)
         {
-                var content = JObject.FromObject(request).ToString(Formatting.None);
-               return Client.PostAsync(Client.BaseAddress,
-                        new StringContent(content, Encoding.UTF8, "application/json"));
+            var content = JObject.FromObject(request).ToString(Formatting.None);
+            var httpRequest = new HttpRequestMessage(HttpMethod.Post,Client.BaseAddress)
+            var response = await Client.SendAsync(Client.BaseAddress,
+                     new StringContent(content, Encoding.UTF8, "application/json"));
+            var stream = await response.Content.ReadAsStreamAsync();
+            return Serializer.Deserialize<TimerResponse>(new JsonTextReader(new StreamReader(stream)));
+        }
+
+        public async Task<TimerResponse> Get(string id)
+        {
+            var response = await Client.GetAsync(new Uri(Client.BaseAddress, "/" + id), HttpCompletionOption.ResponseContentRead);
+            var stream = await response.Content.ReadAsStreamAsync();
+            return Serializer.Deserialize<TimerResponse>(new JsonTextReader(new StreamReader(stream)));
+        }
+
+        public async Task List()
+        {
+            throw new NotImplementedException();
         }
 
         //public Task<HttpResponseMessage> Send<TAudienceType>(ProactiveEventRequest<TAudienceType> request) where TAudienceType : AudienceType

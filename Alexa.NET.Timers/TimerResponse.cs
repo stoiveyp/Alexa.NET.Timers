@@ -2,9 +2,9 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-namespace Alexa.NET.Timers.Creation
+namespace Alexa.NET.Timers
 {
-    public class CreateTimerResponse
+    public class TimerResponse
     {
         [JsonProperty("id")]
         public string Id { get; set; }
@@ -12,7 +12,7 @@ namespace Alexa.NET.Timers.Creation
         public TimeSpan Duration { get; set; }
         [JsonProperty("status"),JsonConverter(typeof(StringEnumConverter))]
         public TimerStatus Status { get; set; }
-        [JsonProperty("timerLabel")]
+        [JsonProperty("timerLabel", NullValueHandling = NullValueHandling.Ignore)]
         public string Label { get; set; }
         [JsonProperty("triggerTime")]
         public DateTime TriggerTime { get; set; }

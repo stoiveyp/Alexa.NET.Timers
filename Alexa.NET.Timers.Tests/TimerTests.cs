@@ -1,7 +1,11 @@
 using System;
+using System.Net.Http;
+using System.Threading.Tasks;
 using Alexa.NET.ConnectionTasks.Inputs;
 using Alexa.NET.Request.Type;
 using Alexa.NET.Timers.Creation;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Xunit;
 
 namespace Alexa.NET.Timers.Tests
@@ -22,7 +26,7 @@ namespace Alexa.NET.Timers.Tests
                 true,
                 "exercise"
                 );
-            Assert.True(Utility.CompareJson(request,"CreateTimerAnnounce.json"));
+            Assert.True(Utility.CompareJson(request, "CreateTimerAnnounce.json"));
         }
 
         [Fact]
@@ -34,7 +38,7 @@ namespace Alexa.NET.Timers.Tests
                     new LaunchRequestTask
                     {
                         Name = "<customTask.NAME>",
-                        Version="<customTask.VERSION>",
+                        Version = "<customTask.VERSION>",
                         Input = new PrintImageV1
                         {
                             Title = "Beautiful scenic image",
@@ -47,7 +51,7 @@ namespace Alexa.NET.Timers.Tests
                     {
                         Locale = "en-US",
                         Text = "Your print timer is up! Would you like to pass focus back skill {continueWithSkillName}"
-                    }), 
+                    }),
                 DisplayVisibility.Hidden,
                 true,
                 "print");
@@ -63,13 +67,13 @@ namespace Alexa.NET.Timers.Tests
                 DisplayVisibility.Hidden,
                 true,
                 "exercise");
-            Assert.True(Utility.CompareJson(request,"CreateTimerNotifyOnly.json"));
+            Assert.True(Utility.CompareJson(request, "CreateTimerNotifyOnly.json"));
         }
 
         [Fact]
         public void CreateResponse()
         {
-            var response = new CreateTimerResponse
+            var response = new TimerResponse
             {
                 Id = "opaque, unique string",
                 Duration = TimeSpan.FromMinutes(10),
@@ -80,7 +84,32 @@ namespace Alexa.NET.Timers.Tests
                 UpdatedTime = DateTime.Parse("2019-09-12T19:04:35.083Z").ToUniversalTime(),
                 RemainingTimeWhenPaused = TimeSpan.FromMinutes(5).Add(TimeSpan.FromSeconds(25))
             };
-            Assert.True(Utility.CompareJson(response,"CreateTimerResponse.json"));
+            Assert.True(Utility.CompareJson(response, "CreateTimerResponse.json"));
+        }
+
+        [Fact]
+        public async Task CreateCall()
+        {
+            var http = new HttpClient(new ActionHandler(async req =>
+            {
+                Assert.Equal("Bearer",req.Headers.Authorization.Scheme);
+                Assert.Equal("ABC123",req.Headers.Authorization.Parameter);
+                Assert.Equal(HttpMethod.Post, req.Method);
+                Assert.Equal(new Uri(TimersClient.EuropeEndpoint).ToString(), req.RequestUri.ToString());
+                var rawBody = await req.Content.ReadAsStringAsync();
+                var bodyObject = JsonConvert.DeserializeObject<CreateTimerRequest>(rawBody);
+                Assert.Equal(TimeSpan.FromHours(1), bodyObject.Duration);
+                Assert.Equal(DisplayVisibility.Visible, bodyObject.CreationBehavior.DisplayExperience.Visibility);
+                Assert.True(bodyObject.TriggeringBehavior.NotificationConfig.PlayAudible);
+                Assert.IsType<NotifyOnlyOperation>(bodyObject.TriggeringBehavior.Operation);
+            },new TimerResponse
+            {
+                Id = "ABC123",
+
+            }));
+            var notifyOnly = new CreateTimerRequest(TimeSpan.FromHours(1), new NotifyOnlyOperation(), DisplayVisibility.Visible, true);
+            var client = new TimersClient(TimersClient.EuropeEndpoint, "ABC123", http);
+            await client.Create(notifyOnly);
         }
     }
 }
