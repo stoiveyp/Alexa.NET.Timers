@@ -111,5 +111,24 @@ namespace Alexa.NET.Timers.Tests
             var client = new TimersClient(TimersClient.EuropeEndpoint, "ABC123", http);
             await client.Create(notifyOnly);
         }
+
+        [Fact]
+        public async Task GetCall()
+        {
+            var http = new HttpClient(new ActionHandler(async req =>
+            {
+                Assert.Equal("Bearer", req.Headers.Authorization.Scheme);
+                Assert.Equal("ABC123", req.Headers.Authorization.Parameter);
+                Assert.Equal(HttpMethod.Get, req.Method);
+                Assert.Equal(new Uri(new Uri(TimersClient.EuropeEndpoint),new Uri("/ABC123",UriKind.Relative)).ToString(), req.RequestUri.ToString());
+            }, new TimerResponse
+            {
+                Id = "ABC123",
+
+            }));
+            var client = new TimersClient(TimersClient.EuropeEndpoint, "ABC123", http);
+            var response = await client.Get("ABC123");
+            Assert.Equal("ABC123",response.Id);
+        }
     }
 }

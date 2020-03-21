@@ -57,8 +57,7 @@ namespace Alexa.NET
         public async Task<TimerResponse> Create(CreateTimerRequest request)
         {
             var content = JObject.FromObject(request).ToString(Formatting.None);
-            var httpRequest = new HttpRequestMessage(HttpMethod.Post,Client.BaseAddress)
-            var response = await Client.SendAsync(Client.BaseAddress,
+            var response = await Client.PostAsync(Client.BaseAddress,
                      new StringContent(content, Encoding.UTF8, "application/json"));
             var stream = await response.Content.ReadAsStreamAsync();
             return Serializer.Deserialize<TimerResponse>(new JsonTextReader(new StreamReader(stream)));
