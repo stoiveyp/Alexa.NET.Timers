@@ -1,0 +1,23 @@
+{
+  "timers": [
+    {
+      "id": "a3aac326-c504-458b-8520-15fd048f086a",
+      "status": "ON",
+      "duration": "PT10M",
+      "triggerTime": "2019-12-03T10:25:30Z",
+      "createdTime": "2019-12-03T10:15:30Z",
+      "updatedTime": "2019-12-03T10:15:30Z"
+    },
+    {
+      "id": "a3aac326-c504-458b-8520-15fd048f086a",
+      "status": "PAUSED",
+      "duration": "PT5M",
+      "timerLabel": "Pizza",
+      "createdTime": "2019-12-03T10:15:30Z",
+      "updatedTime": "2019-12-03T10:12:03Z",
+      "remainingTimeWhenPaused": "PT3M3S"
+    }
+  ],
+  "totalCount": 2,
+  "nextToken": null
+}

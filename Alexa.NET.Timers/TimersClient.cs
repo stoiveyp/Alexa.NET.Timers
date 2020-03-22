@@ -65,14 +65,16 @@ namespace Alexa.NET
 
         public async Task<TimerResponse> Get(string id)
         {
-            var response = await Client.GetAsync(new Uri(Client.BaseAddress, "/" + id), HttpCompletionOption.ResponseContentRead);
+            var response = await Client.GetAsync(new Uri(Client.BaseAddress, new Uri($"/{id}",UriKind.Relative)), HttpCompletionOption.ResponseContentRead);
             var stream = await response.Content.ReadAsStreamAsync();
             return Serializer.Deserialize<TimerResponse>(new JsonTextReader(new StreamReader(stream)));
         }
 
-        public async Task List()
+        public async Task<ListTimerResponse> List()
         {
-            throw new NotImplementedException();
+            var response = await Client.GetAsync(Client.BaseAddress, HttpCompletionOption.ResponseContentRead);
+            var stream = await response.Content.ReadAsStreamAsync();
+            return Serializer.Deserialize<ListTimerResponse>(new JsonTextReader(new StreamReader(stream)));
         }
 
         //public Task<HttpResponseMessage> Send<TAudienceType>(ProactiveEventRequest<TAudienceType> request) where TAudienceType : AudienceType

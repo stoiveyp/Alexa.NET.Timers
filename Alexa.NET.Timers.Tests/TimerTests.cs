@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Alexa.NET.ConnectionTasks.Inputs;
@@ -115,7 +116,7 @@ namespace Alexa.NET.Timers.Tests
         [Fact]
         public async Task GetCall()
         {
-            var http = new HttpClient(new ActionHandler(async req =>
+            var http = new HttpClient(new ActionHandler(req =>
             {
                 Assert.Equal("Bearer", req.Headers.Authorization.Scheme);
                 Assert.Equal("ABC123", req.Headers.Authorization.Parameter);
@@ -129,6 +130,28 @@ namespace Alexa.NET.Timers.Tests
             var client = new TimersClient(TimersClient.EuropeEndpoint, "ABC123", http);
             var response = await client.Get("ABC123");
             Assert.Equal("ABC123",response.Id);
+        }
+
+        [Fact]
+        public async Task ListCall()
+        {
+            var http = new HttpClient(new ActionHandler(req =>
+            {
+                Assert.Equal("Bearer", req.Headers.Authorization.Scheme);
+                Assert.Equal("ABC123", req.Headers.Authorization.Parameter);
+                Assert.Equal(HttpMethod.Get, req.Method);
+                Assert.Equal(new Uri(TimersClient.EuropeEndpoint).ToString(), req.RequestUri.ToString());
+            }, Utility.ExampleFileContent<ListTimerResponse>("ListTimer.json")));
+
+            var client = new TimersClient(TimersClient.EuropeEndpoint, "ABC123", http);
+            var response = await client.List();
+
+            Assert.Equal(TimeSpan.FromMinutes(10),response.Timers.First().Duration);
+            Assert.Equal(TimeSpan.FromMinutes(5), response.Timers.Skip(1).First().Duration);
+            Assert.Equal(TimeSpan.FromMinutes(3).Add(TimeSpan.FromSeconds(3)), response.Timers.Skip(1).First().RemainingTimeWhenPaused);
+            Assert.Equal(2,response.Timers.Length);
+            Assert.Equal(2, response.TotalCount);
+            Assert.Null(response.NextToken);
         }
     }
 }
