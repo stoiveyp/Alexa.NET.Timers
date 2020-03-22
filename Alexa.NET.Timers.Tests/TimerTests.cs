@@ -97,7 +97,7 @@ namespace Alexa.NET.Timers.Tests
                 Assert.Equal("Bearer",req.Headers.Authorization.Scheme);
                 Assert.Equal("ABC123",req.Headers.Authorization.Parameter);
                 Assert.Equal(HttpMethod.Post, req.Method);
-                Assert.Equal(new Uri(TimersClient.EuropeEndpoint).ToString(), req.RequestUri.ToString());
+                Assert.Equal($"{TimersClient.EuropeEndpoint}/v1/alerts/timers/", req.RequestUri.ToString());
                 var rawBody = await req.Content.ReadAsStringAsync();
                 var bodyObject = JsonConvert.DeserializeObject<CreateTimerRequest>(rawBody);
                 Assert.Equal(TimeSpan.FromHours(1), bodyObject.Duration);
@@ -122,7 +122,7 @@ namespace Alexa.NET.Timers.Tests
                 Assert.Equal("Bearer", req.Headers.Authorization.Scheme);
                 Assert.Equal("ABC123", req.Headers.Authorization.Parameter);
                 Assert.Equal(HttpMethod.Get, req.Method);
-                Assert.Equal(new Uri(new Uri(TimersClient.EuropeEndpoint),new Uri("/ABC123",UriKind.Relative)).ToString(), req.RequestUri.ToString());
+                Assert.Equal($"{TimersClient.EuropeEndpoint}/v1/alerts/timers/ABC123", req.RequestUri.ToString());
             }, new TimerResponse
             {
                 Id = "ABC123",
@@ -141,7 +141,7 @@ namespace Alexa.NET.Timers.Tests
                 Assert.Equal("Bearer", req.Headers.Authorization.Scheme);
                 Assert.Equal("ABC123", req.Headers.Authorization.Parameter);
                 Assert.Equal(HttpMethod.Get, req.Method);
-                Assert.Equal(new Uri(TimersClient.EuropeEndpoint).ToString(), req.RequestUri.ToString());
+                Assert.Equal($"{TimersClient.EuropeEndpoint}/v1/alerts/timers/", req.RequestUri.ToString());
             }, Utility.ExampleFileContent<ListTimerResponse>("ListTimer.json")));
 
             var client = new TimersClient(TimersClient.EuropeEndpoint, "ABC123", http);
@@ -163,8 +163,8 @@ namespace Alexa.NET.Timers.Tests
                 Assert.Equal("Bearer", req.Headers.Authorization.Scheme);
                 Assert.Equal("ABC123", req.Headers.Authorization.Parameter);
                 Assert.Equal(HttpMethod.Delete, req.Method);
-                Assert.Equal(TimersClient.EuropeEndpoint.ToString(), req.RequestUri.ToString());
-            }));
+                Assert.Equal($"{TimersClient.EuropeEndpoint}/v1/alerts/timers/", req.RequestUri.ToString());
+            },HttpStatusCode.NoContent));
 
             var client = new TimersClient(TimersClient.EuropeEndpoint, "ABC123", http);
             await client.Delete();
@@ -178,8 +178,8 @@ namespace Alexa.NET.Timers.Tests
                 Assert.Equal("Bearer", req.Headers.Authorization.Scheme);
                 Assert.Equal("ABC123", req.Headers.Authorization.Parameter);
                 Assert.Equal(HttpMethod.Delete, req.Method);
-                Assert.Equal(new Uri(new Uri(TimersClient.EuropeEndpoint), new Uri("/ABC123", UriKind.Relative)).ToString(), req.RequestUri.ToString());
-            }));
+                Assert.Equal($"{TimersClient.EuropeEndpoint}/v1/alerts/timers/ABC123", req.RequestUri.ToString());
+            },HttpStatusCode.NoContent));
 
             var client = new TimersClient(TimersClient.EuropeEndpoint, "ABC123", http);
             await client.Delete("ABC123");
@@ -193,8 +193,8 @@ namespace Alexa.NET.Timers.Tests
                 Assert.Equal("Bearer", req.Headers.Authorization.Scheme);
                 Assert.Equal("ABC123", req.Headers.Authorization.Parameter);
                 Assert.Equal(HttpMethod.Post, req.Method);
-                Assert.Equal(new Uri(new Uri(TimersClient.EuropeEndpoint), new Uri("/ABC123/pause", UriKind.Relative)).ToString(), req.RequestUri.ToString());
-            }));
+                Assert.Equal($"{TimersClient.EuropeEndpoint}/v1/alerts/timers/ABC123/pause", req.RequestUri.ToString());
+            },HttpStatusCode.NoContent));
 
             var client = new TimersClient(TimersClient.EuropeEndpoint, "ABC123", http);
             await client.Pause("ABC123");
@@ -208,8 +208,8 @@ namespace Alexa.NET.Timers.Tests
                 Assert.Equal("Bearer", req.Headers.Authorization.Scheme);
                 Assert.Equal("ABC123", req.Headers.Authorization.Parameter);
                 Assert.Equal(HttpMethod.Post, req.Method);
-                Assert.Equal(new Uri(new Uri(TimersClient.EuropeEndpoint), new Uri("/ABC123/resume", UriKind.Relative)).ToString(), req.RequestUri.ToString());
-            }));
+                Assert.Equal($"{TimersClient.EuropeEndpoint}/v1/alerts/timers/ABC123/resume", req.RequestUri.ToString());
+            },HttpStatusCode.NoContent));
 
             var client = new TimersClient(TimersClient.EuropeEndpoint, "ABC123", http);
             await client.Resume("ABC123");

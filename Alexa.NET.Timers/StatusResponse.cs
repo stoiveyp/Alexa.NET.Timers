@@ -24,5 +24,23 @@ namespace Alexa.NET.Timers
                 $"Expected Status Code {(int)expectedCode}. Received {(int)response.StatusCode}. Response Body: {body}");
 
         }
+
+        public static async Task<T> BodyOrError<T>(this HttpResponseMessage response, Func<string, T> converter,
+            HttpStatusCode expectedCode)
+        {
+            var body = string.Empty;
+            if (response.Content != null)
+            {
+                body = await response.Content.ReadAsStringAsync();
+            }
+
+            if (response.StatusCode != expectedCode)
+            {
+                throw new InvalidOperationException(
+                    $"Expected Status Code {(int)expectedCode}. Received {(int)response.StatusCode}. Response Body: {body}");
+            }
+
+            return converter(body);
+        }
     }
 }

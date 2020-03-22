@@ -15,9 +15,9 @@ namespace Alexa.NET
 {
     public class TimersClient
     {
-        public const string NorthAmericaEndpoint = "https://api.amazonalexa.com/v1/alerts/timers";
-        public const string EuropeEndpoint = "https://api.eu.amazonalexa.com/v1/alerts/timers";
-        public const string FarEastEndpoint = "https://api.fe.amazonalexa.com/v1/alerts/timers";
+        public const string NorthAmericaEndpoint = "https://api.amazonalexa.com";
+        public const string EuropeEndpoint = "https://api.eu.amazonalexa.com";
+        public const string FarEastEndpoint = "https://api.fe.amazonalexa.com";
 
         private static readonly JsonSerializer Serializer;
 
@@ -26,6 +26,16 @@ namespace Alexa.NET
         static TimersClient()
         {
             Serializer = JsonSerializer.CreateDefault();
+        }
+
+        public TimersClient(SkillRequest request) : this(request,null)
+        {
+
+        }
+
+        public TimersClient(SkillRequest request, HttpClient client):this(request.Context.System.ApiEndpoint,request.Context.System.ApiAccessToken,client)
+        {
+
         }
 
         public TimersClient(string endpointBase, string accessToken) : this(endpointBase, accessToken,
@@ -39,7 +49,9 @@ namespace Alexa.NET
             client ??= new HttpClient();
             if (client.BaseAddress == null)
             {
-                client.BaseAddress = new Uri(endpointBase, UriKind.Absolute);
+                var baseUri = new Uri(endpointBase, UriKind.Absolute);
+                var builder = new UriBuilder(baseUri.Scheme, baseUri.Host, baseUri.Port, "v1/alerts/timers/");
+                client.BaseAddress = builder.Uri;
             }
 
             if (client.DefaultRequestHeaders.Authorization == null)
@@ -58,48 +70,46 @@ namespace Alexa.NET
         public async Task<TimerResponse> Create(CreateTimerRequest request)
         {
             var content = JObject.FromObject(request).ToString(Formatting.None);
-            var response = await Client.PostAsync(Client.BaseAddress,
+            var response = await Client.PostAsync(string.Empty,
                      new StringContent(content, Encoding.UTF8, "application/json"));
-            var stream = await response.Content.ReadAsStreamAsync();
-            return Serializer.Deserialize<TimerResponse>(new JsonTextReader(new StreamReader(stream)));
+            return await response.BodyOrError(JsonConvert.DeserializeObject<TimerResponse>, HttpStatusCode.OK);
         }
 
         public async Task<TimerResponse> Get(string id)
         {
-            var response = await Client.GetAsync(new Uri(Client.BaseAddress, new Uri($"/{id}",UriKind.Relative)), HttpCompletionOption.ResponseContentRead);
-            var stream = await response.Content.ReadAsStreamAsync();
-            return Serializer.Deserialize<TimerResponse>(new JsonTextReader(new StreamReader(stream)));
+            var response = await Client.GetAsync(new Uri($"{id}", UriKind.Relative), HttpCompletionOption.ResponseContentRead);
+            return await response.BodyOrError(JsonConvert.DeserializeObject<TimerResponse>, HttpStatusCode.OK);
         }
 
         public async Task<ListTimerResponse> List()
         {
-            var response = await Client.GetAsync(Client.BaseAddress, HttpCompletionOption.ResponseContentRead);
+            var response = await Client.GetAsync(string.Empty, HttpCompletionOption.ResponseContentRead);
             var stream = await response.Content.ReadAsStreamAsync();
-            return Serializer.Deserialize<ListTimerResponse>(new JsonTextReader(new StreamReader(stream)));
+            return await response.BodyOrError(JsonConvert.DeserializeObject<ListTimerResponse>, HttpStatusCode.OK);
         }
 
         public async Task Delete()
         {
-            var response = await Client.DeleteAsync(Client.BaseAddress);
-            await response.CodeOrError(HttpStatusCode.OK);
+            var response = await Client.DeleteAsync(string.Empty);
+            await response.CodeOrError(HttpStatusCode.NoContent);
         }
 
         public async Task Delete(string id)
         {
-            var response = await Client.DeleteAsync(new Uri(Client.BaseAddress, new Uri($"/{id}", UriKind.Relative)));
-            await response.CodeOrError(HttpStatusCode.OK);
+            var response = await Client.DeleteAsync(new Uri($"{id}", UriKind.Relative));
+            await response.CodeOrError(HttpStatusCode.NoContent);
         }
 
         public async Task Pause(string id)
         {
-            var response = await Client.PostAsync(new Uri(Client.BaseAddress, new Uri($"/{id}/pause", UriKind.Relative)),null);
-            await response.CodeOrError(HttpStatusCode.OK);
+            var response = await Client.PostAsync(new Uri($"{id}/pause", UriKind.Relative), null);
+            await response.CodeOrError(HttpStatusCode.NoContent);
         }
 
         public async Task Resume(string id)
         {
-            var response = await Client.PostAsync(new Uri(Client.BaseAddress, new Uri($"/{id}/resume", UriKind.Relative)),null);
-            await response.CodeOrError(HttpStatusCode.OK);
+            var response = await Client.PostAsync(new Uri($"{id}/resume",UriKind.Relative), null);
+            await response.CodeOrError(HttpStatusCode.NoContent);
         }
     }
 }
