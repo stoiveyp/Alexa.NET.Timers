@@ -1,4 +1,4 @@
-﻿namespace Alexa.NET.Timers
+﻿namespace Alexa.NET.Timers.Creation
 {
     public class NotifyOnlyOperation : Operation
     {

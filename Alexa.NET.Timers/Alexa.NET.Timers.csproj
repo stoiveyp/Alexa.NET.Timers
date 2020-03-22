@@ -2,11 +2,29 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Version>1.0.0</Version>
+    <LangVersion>8</LangVersion>
+    <Authors>Steven Pears</Authors>
+    <Company />
+    <Description>A simple package built to work with Alexa Timers</Description>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageProjectUrl>https://github.com/stoiveyp/Alexa.NET.Timers</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/stoiveyp/Alexa.NET.Timers</RepositoryUrl>
+    <PackageTags>alexa, timers</PackageTags>
+    <PackageReleaseNotes>initial implementation</PackageReleaseNotes>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="Alexa.NET" Version="1.13.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>

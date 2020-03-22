@@ -1,9 +1,9 @@
-﻿using System.Net.Http.Headers;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-namespace Alexa.NET.Timers
+namespace Alexa.NET.Timers.Creation
 {
+    [JsonConverter(typeof(OperationConverter))]
     public abstract class Operation
     {
         [JsonProperty("type"), JsonConverter(typeof(StringEnumConverter))]

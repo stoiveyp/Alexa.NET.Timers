@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace Alexa.NET.Timers
+namespace Alexa.NET.Timers.Creation
 {
     public class CreateTimerRequest
     {
