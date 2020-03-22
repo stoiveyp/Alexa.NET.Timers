@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -75,6 +76,12 @@ namespace Alexa.NET
             var response = await Client.GetAsync(Client.BaseAddress, HttpCompletionOption.ResponseContentRead);
             var stream = await response.Content.ReadAsStreamAsync();
             return Serializer.Deserialize<ListTimerResponse>(new JsonTextReader(new StreamReader(stream)));
+        }
+
+        public async Task Delete(string id)
+        {
+            var response = await Client.DeleteAsync(new Uri(Client.BaseAddress, new Uri($"/{id}", UriKind.Relative)));
+            await response.CodeOrError(HttpStatusCode.OK);
         }
 
         //public Task<HttpResponseMessage> Send<TAudienceType>(ProactiveEventRequest<TAudienceType> request) where TAudienceType : AudienceType

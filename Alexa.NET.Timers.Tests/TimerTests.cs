@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Alexa.NET.ConnectionTasks.Inputs;
@@ -152,6 +153,21 @@ namespace Alexa.NET.Timers.Tests
             Assert.Equal(2,response.Timers.Length);
             Assert.Equal(2, response.TotalCount);
             Assert.Null(response.NextToken);
+        }
+
+        [Fact]
+        public async Task DeleteCall()
+        {
+            var http = new HttpClient(new ActionHandler(req =>
+            {
+                Assert.Equal("Bearer", req.Headers.Authorization.Scheme);
+                Assert.Equal("ABC123", req.Headers.Authorization.Parameter);
+                Assert.Equal(HttpMethod.Delete, req.Method);
+                Assert.Equal(new Uri(new Uri(TimersClient.EuropeEndpoint), new Uri("/ABC123", UriKind.Relative)).ToString(), req.RequestUri.ToString());
+            }));
+
+            var client = new TimersClient(TimersClient.EuropeEndpoint, "ABC123", http);
+            await client.Delete("ABC123");
         }
     }
 }
