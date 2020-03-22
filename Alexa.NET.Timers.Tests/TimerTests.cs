@@ -163,6 +163,21 @@ namespace Alexa.NET.Timers.Tests
                 Assert.Equal("Bearer", req.Headers.Authorization.Scheme);
                 Assert.Equal("ABC123", req.Headers.Authorization.Parameter);
                 Assert.Equal(HttpMethod.Delete, req.Method);
+                Assert.Equal(TimersClient.EuropeEndpoint.ToString(), req.RequestUri.ToString());
+            }));
+
+            var client = new TimersClient(TimersClient.EuropeEndpoint, "ABC123", http);
+            await client.Delete();
+        }
+
+        [Fact]
+        public async Task DeleteTimerCall()
+        {
+            var http = new HttpClient(new ActionHandler(req =>
+            {
+                Assert.Equal("Bearer", req.Headers.Authorization.Scheme);
+                Assert.Equal("ABC123", req.Headers.Authorization.Parameter);
+                Assert.Equal(HttpMethod.Delete, req.Method);
                 Assert.Equal(new Uri(new Uri(TimersClient.EuropeEndpoint), new Uri("/ABC123", UriKind.Relative)).ToString(), req.RequestUri.ToString());
             }));
 

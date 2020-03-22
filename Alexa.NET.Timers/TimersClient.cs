@@ -78,6 +78,12 @@ namespace Alexa.NET
             return Serializer.Deserialize<ListTimerResponse>(new JsonTextReader(new StreamReader(stream)));
         }
 
+        public async Task Delete()
+        {
+            var response = await Client.DeleteAsync(Client.BaseAddress);
+            await response.CodeOrError(HttpStatusCode.OK);
+        }
+
         public async Task Delete(string id)
         {
             var response = await Client.DeleteAsync(new Uri(Client.BaseAddress, new Uri($"/{id}", UriKind.Relative)));
