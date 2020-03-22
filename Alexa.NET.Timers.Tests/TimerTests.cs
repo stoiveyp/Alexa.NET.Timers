@@ -184,5 +184,35 @@ namespace Alexa.NET.Timers.Tests
             var client = new TimersClient(TimersClient.EuropeEndpoint, "ABC123", http);
             await client.Delete("ABC123");
         }
+
+        [Fact]
+        public async Task PauseTimerCall()
+        {
+            var http = new HttpClient(new ActionHandler(req =>
+            {
+                Assert.Equal("Bearer", req.Headers.Authorization.Scheme);
+                Assert.Equal("ABC123", req.Headers.Authorization.Parameter);
+                Assert.Equal(HttpMethod.Post, req.Method);
+                Assert.Equal(new Uri(new Uri(TimersClient.EuropeEndpoint), new Uri("/ABC123/pause", UriKind.Relative)).ToString(), req.RequestUri.ToString());
+            }));
+
+            var client = new TimersClient(TimersClient.EuropeEndpoint, "ABC123", http);
+            await client.Pause("ABC123");
+        }
+
+        [Fact]
+        public async Task ResumeTimerCall()
+        {
+            var http = new HttpClient(new ActionHandler(req =>
+            {
+                Assert.Equal("Bearer", req.Headers.Authorization.Scheme);
+                Assert.Equal("ABC123", req.Headers.Authorization.Parameter);
+                Assert.Equal(HttpMethod.Post, req.Method);
+                Assert.Equal(new Uri(new Uri(TimersClient.EuropeEndpoint), new Uri("/ABC123/resume", UriKind.Relative)).ToString(), req.RequestUri.ToString());
+            }));
+
+            var client = new TimersClient(TimersClient.EuropeEndpoint, "ABC123", http);
+            await client.Resume("ABC123");
+        }
     }
 }

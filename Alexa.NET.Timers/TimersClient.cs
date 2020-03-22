@@ -90,16 +90,16 @@ namespace Alexa.NET
             await response.CodeOrError(HttpStatusCode.OK);
         }
 
-        //public Task<HttpResponseMessage> Send<TAudienceType>(ProactiveEventRequest<TAudienceType> request) where TAudienceType : AudienceType
-        //{
-        //    if (string.IsNullOrWhiteSpace(request.ReferenceId))
-        //    {
-        //        throw new ArgumentNullException(nameof(request.ReferenceId));
-        //    }
+        public async Task Pause(string id)
+        {
+            var response = await Client.PostAsync(new Uri(Client.BaseAddress, new Uri($"/{id}/pause", UriKind.Relative)),null);
+            await response.CodeOrError(HttpStatusCode.OK);
+        }
 
-        //    var content = JObject.FromObject(request).ToString(Formatting.None);
-        //    return Client.PostAsync(Client.BaseAddress,
-        //            new StringContent(content, Encoding.UTF8, "application/json"));
-        //}
+        public async Task Resume(string id)
+        {
+            var response = await Client.PostAsync(new Uri(Client.BaseAddress, new Uri($"/{id}/resume", UriKind.Relative)),null);
+            await response.CodeOrError(HttpStatusCode.OK);
+        }
     }
 }
